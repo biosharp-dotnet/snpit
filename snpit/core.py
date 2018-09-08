@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import pkg_resources, csv, codecs
+import pkg_resources
 import operator
 
 # PyVCF
@@ -8,6 +8,9 @@ import vcf
 
 #BioPython
 from Bio import SeqIO
+
+#gzip
+import gzip
 
 class snpit(object):
 
@@ -17,7 +20,7 @@ class snpit(object):
     The methods have been separated so it can be incorporated into single Python scripts that processes multiple VCF files.
     """
 
-    def __init__(self,vcf_file=None,threshold=10):
+    def __init__(self,threshold=10):
 
         """
         Args:
@@ -28,30 +31,23 @@ class snpit(object):
         self.threshold=threshold
 
         # construct the relative path in the package to the library file which contains a list of all the lineages and sub-lineages
-        resource_path = '/'.join(('..','lib', 'library.csv'))
+        resource_path = '/'.join(('..','lib', 'library'))
 
         # open a stream object ready for reading
         library_file = pkg_resources.resource_stream("snpit", resource_path)
 
-        utf8_reader = codecs.getreader("utf-8")
-
-
         self.reference_snps={}
 
-        self.lineages={}
-
-        # with open(library_file) as CSVFILE:
-
-        reader = csv.DictReader(utf8_reader(library_file))
+        self.lineages=[]
 
         # read the library file line-by-line
-        for record in reader:
+        for record in library_file:
 
             # remove the carriage return and decode from binary
-            lineage_name = record['id']
+            lineage_name = record.rstrip().decode('UTF-8')
 
-            # remember the lineage meta data in a dictionary
-            self.lineages[lineage_name]={'species':record['species'],'lineage':record['lineage'],'sublineage':record['sublineage']}
+            # remember the lineage name in a list
+            self.lineages.append(lineage_name)
 
             # now we know the name construct the relative path to this lineage file
             lineage_path='/'.join(('..','lib',lineage_name))
@@ -71,10 +67,36 @@ class snpit(object):
                 # remember the base in the dictionary using the genome position as the key
                 self.reference_snps[lineage_name][int(cols[0])]=cols[1]
 
-        self.load_vcf(vcf_file)
+    def load_fasta(self, fasta_file):
+        """
+        adds fasta capability to the SNP-IT package
+        Args:
+            fasta_file: Path to the fasta file to be read
+        """
 
-        (self.species,self.lineage,self.sublineage,self.percentage)=self.determine_lineage()
+        # setup the dictionaries of expected SNPs for each lineage
+        self._reset_lineage_snps()
 
+    #open the fasta file for reading
+        with gzip.open(fasta_file, 'rt') as fasta_file:
+            fasta_reader = SeqIO.read(fasta_file,'fasta')
+            self._reset_lineage_snps()
+            self.sample_snps={}
+
+        #  iterate through the lineages
+        for lineage_name in self.lineages:
+
+            self.sample_snps[lineage_name]={}
+
+            # iterate over the positions in the reference set of snps for that lineage
+            for pos in self.reference_snps[lineage_name]:
+                if pos in self.reference_snps[lineage_name].keys():
+                # CAUTION the GenBank File is 1-based, but the lineage files are 0-based
+                # Remember the nucleotide at the defining position
+                    self.sample_snps[lineage_name][int(pos)]=fasta_reader.seq[int(pos)-1]
+
+
+    
     def load_vcf(self,vcf_file):
         """
         Loads the vcf file and then, for each lineage, identify the base at each of the identifying positions in the genome.
@@ -176,13 +198,23 @@ class snpit(object):
         # create an ordered list of tuples of (lineage,percentage) in descending order
         self.results = sorted(self.percentage.items(), key=operator.itemgetter(1),reverse=True)
 
-        identified_lineage_name=self.results[0][0]
-        identified_lineage_percentage=self.results[0][1]
+        # if the first two entries are above the threshold
+        if self.results[0][1]>self.threshold and self.results[1][1]>self.threshold:
 
-        # if the top lineage is above the specified threshold, return the classification
-        if identified_lineage_percentage>self.threshold:
-            return(self.lineages[identified_lineage_name]['species'],self.lineages[identified_lineage_name]['lineage'],self.lineages[identified_lineage_name]['sublineage'],identified_lineage_percentage)
+            # and the first is lineage4, take the second one as it will be a sub-lineage
+            if self.results[0][0]=="lineage4":
+                return(self.results[1])
+
+            # otherwise just return the first
+            else:
+                return(self.results[0])
+
+        # otherwise if the first element is above the threshold
+        elif self.results[0][1]>self.threshold:
+
+            # return the tuple
+            return(self.results[0])
 
         # finally, no strain must be above the threshold percentage so return Nones as "Don't know"
         else:
-            return(None,None,None,None)
+            return((None,None))
