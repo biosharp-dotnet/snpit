@@ -5,7 +5,7 @@ import operator
 
 # PyVCF
 import vcf
-
+import gzip
 #BioPython
 from Bio import SeqIO
 
