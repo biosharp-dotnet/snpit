@@ -27,6 +27,6 @@ if __name__ == "__main__":
     tb=snpit(threshold=10,input_file=options.input)
 
     if tb.percentage is not None:
-        print("%s\n%16s %16s %16s %.1f %%" % (options.input,tb.species,tb.lineage,tb.sublineage,tb.percentage))
+        print("%s\t%s\t%s\t%s%.1f %%" % (options.input,tb.species,tb.lineage,tb.sublineage,tb.percentage))
     else:
-        print("%s\n%16s" % (options.input,"none identified"))
+        print("%s\t%s" % (options.input,"none identified"))
