@@ -2,7 +2,7 @@
 
 Whole genome SNP based identification of members of the Mycobacterium tuberculosis complex. Based on code originally written by Samuel Lipworth and turned into a package by Philip Fowler.
 
-SNP-IT allows rapid Mycobacterial speciation of VCF files aligned to NC000962 (H37rV).
+SNP-IT allows rapid Mycobacterial speciation of VCF or FASTA files aligned to NC000962 (H37rV).
 
 For more information please see this preprint;
 
@@ -51,4 +51,10 @@ example.vcf
      M. tuberculosis        Lineage 2                  97.7 %
 ```
 Note that, as shown in the paper, sublineages are only available for Lineage 4, hence no sublineage is reported for this sample. To alter how the results are output, please see the `bin/snpit-run.py` script.
+
+Or for bulk usage eg:
+
+```
+ls *.fasta.gz | parallel -j10 snpit-run.py {} > snpit_results.tsv
+```
 
