@@ -32,7 +32,7 @@ The `--user` flag ensures that it is only installed for the user (avoiding the n
 
 ## Dependencies
 
-The code requires the BioPython and PyVCF Python packages. The above installation process will detect if they already installed in the local machine, and if not, download and install them.
+The code requires the BioPython, Gzip and PyVCF Python packages. The above installation process will detect if they already installed in the local machine, and if not, download and install them.
 
 ## Usage
 
