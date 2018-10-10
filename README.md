@@ -10,6 +10,8 @@ Lipworth S, Jajou R, de Neeling H, P B, van der Hoek W, et al. A novel multi SNP
 
 Please email samuel.lipworth@medsci.ox.ac.uk with any queries.
 
+If you are experience difficulties installing the package, please email for help or try https://github.com/samlipworth/SNP-IT (the original non-packaged version).
+
 ## How to install
 
 First clone the repository on your local machine
