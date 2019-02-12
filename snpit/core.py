@@ -219,7 +219,6 @@ class snpit(object):
             ref=0
 
             for i,j in enumerate(self.reference_snps[lineage_name]):
-
                 if self.reference_snps[lineage_name][j] == self.sample_snps[lineage_name][j]:
                     shared+=1
                 ref+=1
