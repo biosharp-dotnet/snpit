@@ -17,20 +17,7 @@ If you are experience difficulties installing the package, please email for help
 
 ## How to install
 
-### Conda
 
-With an activated Bioconda channel:
-```
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-```
-
-Install SNP-IT (nb the bioconda recipe is called mtb-snp-it, with thanks to Peter van Heusden)
-```
-conda install mtb-snp-it
-conda update mtb-snp-it
-```
 ### From source
 
 First clone the repository on your local machine
@@ -50,6 +37,22 @@ then enter the directory and install
 > python setup develop --user
 ```
 The `--user` flag ensures that it is only installed for the user (avoiding the need to know the root/sudo password). To system-wide install simply omit the flag.
+
+### Conda
+nb the bioconda recipe is called mtb-snp-it, with thanks to Peter van Heusden - I have not tested yet so please let me know if there are any issues.
+
+With an activated Bioconda channel:
+```
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+```
+
+Install SNP-IT
+```
+conda install mtb-snp-it
+conda update mtb-snp-it
+```
 
 ## Dependencies
 
