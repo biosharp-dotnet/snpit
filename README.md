@@ -29,6 +29,7 @@ conda config --add channels conda-forge
 Install SNP-IT (nb the bioconda recipe is called mtb-snp-it, with thanks to Peter van Heusden)
 ```
 conda install mtb-snp-it
+conda update mtb-snp-it
 ```
 ### From source
 
