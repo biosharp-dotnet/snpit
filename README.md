@@ -17,7 +17,7 @@ If you are experience difficulties installing the package, please email for help
 
 ## How to install
 
-Conda
+### Conda
 
 With an activated Bioconda channel:
 ```
@@ -30,6 +30,7 @@ Install SNP-IT (nb the bioconda recipe is called mtb-snp-it, with thanks to Pete
 ```
 conda install mtb-snp-it
 ```
+### From source
 
 First clone the repository on your local machine
 
