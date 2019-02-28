@@ -7,8 +7,8 @@ setup(
     name='snpit',
     version='1.0.0',
     author='Samuel Lipworth',
+    author_email='samuel.lipworth@medsci.ox.ac.uk',
     url='https://github.com/samlipworth/snpit',
-    email='samuel.lipworth@medsci.ox.ac.uk',
     packages=['snpit'],
     install_requires=[
         "PyVCF >= 0.6.8",
