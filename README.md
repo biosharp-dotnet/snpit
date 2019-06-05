@@ -14,7 +14,7 @@ For more information please see the publication:
 
 _Please note we are now using version 2 libraries (slightly smaller than those in the paper). If you notice any problems please let us know._
 
-Please email samuel.lipworth@medsci.ox.ac.uk with any queries.
+Please email samuel.lipworth@ndm.ox.ac.uk with any queries.
 
 If you are experience difficulties installing the package, please email for help or try [SNP-IT](https://github.com/samlipworth/SNP-IT) (the original non-packaged version).
 
