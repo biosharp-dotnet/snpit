@@ -1,13 +1,16 @@
 #! /usr/bin/env python
 
-import pkg_resources, codecs, csv
+import codecs
+import csv
+import gzip
 import operator
 
+import pkg_resources
 # PyVCF
 import vcf
-import gzip
 #BioPython
 from Bio import SeqIO
+
 
 class snpit(object):
 
@@ -241,7 +244,7 @@ class snpit(object):
                 next_lineage_name=self.results[1][0]
                 next_lineage_percentage=self.results[1][1]
 
-                print(next_lineage_name,next_lineage_percentage)
+                # print(next_lineage_name,next_lineage_percentage)
                 # if the next best lineage is ALSO lineage 4, but this one has a sublineage and is above the threshold, report that one instead
                 if self.lineages[next_lineage_name]['lineage']=="Lineage 4" and self.lineages[next_lineage_name]['sublineage']!="" and next_lineage_percentage>self.threshold:
 
